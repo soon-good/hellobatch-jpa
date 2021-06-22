@@ -35,4 +35,4 @@ $ source docker-mysql-repl.sh
 - port
     - 39907  
 
-![이미지](./img/CONNECTION-INFO.png)
+![이미지](img/CONNECTION-INFO.png)
