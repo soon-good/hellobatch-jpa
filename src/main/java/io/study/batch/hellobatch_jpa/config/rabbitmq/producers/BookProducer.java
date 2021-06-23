@@ -1,0 +1,42 @@
+package io.study.batch.hellobatch_jpa.config.rabbitmq.producers;
+
+import io.study.batch.hellobatch_jpa.shop.book.Book;
+import io.study.batch.hellobatch_jpa.shop.book.repository.BookRepository;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Profile("test-rabbitmq-postgresql")
+@Service
+public class BookProducer{
+
+    private final RabbitTemplate rabbitTemplate;
+    private final FanoutExchange fanoutExchange;
+    private final BookRepository bookRepository;
+    private final List<Book> books;
+
+    @Autowired
+    public BookProducer(RabbitTemplate rabbitTemplate,
+                        @Qualifier("BOOK_SIMPLE_EXCHANGE_1")FanoutExchange fanoutExchange,
+                        BookRepository bookRepository){
+        this.rabbitTemplate = rabbitTemplate;
+        this.fanoutExchange = fanoutExchange;
+        this.bookRepository = bookRepository;
+        this.books = bookRepository.findAll();
+    }
+
+    @Scheduled(initialDelay = 1000, fixedRate = 1000)
+    public void sendBookMessage(){
+        for(Book book : books){
+            rabbitTemplate.convertAndSend(fanoutExchange.getName(), "", book);
+            System.out.println("[producer sent] " + book.toString());
+        }
+    }
+
+}
