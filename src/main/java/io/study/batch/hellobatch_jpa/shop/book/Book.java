@@ -18,10 +18,19 @@ public class Book {
     @Column
     private String name;
 
+    @Column
+    private Integer price;
+
     public Book(){}
 
     public Book(Long id, String name){
         this.id = id;
         this.name = name;
+    }
+
+    public Book(Long id, String name, Integer price){
+        this.id = id;
+        this.name = name;
+        this.price = price;
     }
 }
