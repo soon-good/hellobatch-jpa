@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 
-@Profile("test-rabbitmq-postgresql")
 @SpringBootTest
 public class DataSourceTest {
 
@@ -29,7 +28,7 @@ public class DataSourceTest {
 
     @Test
     public void testSelectAllDto(){
-        List<BookDto> bookDtos = bookService.listAllBook();
-        System.out.println(bookDtos);
+        List<BookDto> dtoList = bookService.listAllBook();
+        System.out.println(dtoList);
     }
 }
