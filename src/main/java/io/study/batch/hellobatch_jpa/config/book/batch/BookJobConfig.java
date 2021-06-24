@@ -1,4 +1,4 @@
-package io.study.batch.hellobatch_jpa.config.batch;
+package io.study.batch.hellobatch_jpa.config.book.batch;
 
 import io.study.batch.hellobatch_jpa.shop.book.Book;
 import io.study.batch.hellobatch_jpa.shop.book.BookService;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
 import java.sql.Date;
@@ -26,7 +25,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Configuration
+//@Configuration
 public class BookJobConfig {
 
     @Autowired
@@ -39,6 +38,7 @@ public class BookJobConfig {
     private final StepBuilderFactory stepBuilderFactory;
     private final BookItemProcessor bookItemProcessor;
     private final EntityManagerFactory entityManagerFactory;
+//    private final RabbitTemplate rabbitTemplate;
 
     public BookJobConfig(JobBuilderFactory jobBuilderFactory,
                          StepBuilderFactory stepBuilderFactory,
@@ -48,11 +48,12 @@ public class BookJobConfig {
         this.stepBuilderFactory = stepBuilderFactory;
         this.bookItemProcessor = processor;
         this.entityManagerFactory = entityManagerFactory;
+//        this.rabbitTemplate = rabbitTemplate;
     }
 
     @Bean
-//    @JobScope
-    public Job bookPrintJob(){
+    @JobScope
+    public Job bookPrintJob(@Qualifier("bookPrintStep")Step bookPrintStep){
         LocalDateTime now = LocalDateTime.now();
         String requestDate = now.format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
 
@@ -60,18 +61,20 @@ public class BookJobConfig {
 
         return jobBuilderFactory.get("bookPrintJob")
                 .preventRestart()
-                .start(bookPrintStep(requestDate))
+                .start(bookPrintStep)
                 .build();
     }
 
     @Bean
-//    @StepScope
-    public Step bookPrintStep(@Value("#{jobParameters[requestDate]}") String requestDate){
+    @StepScope
+    public Step bookPrintStep(@Value("#{jobParameters[requestDate]}") String requestDate,
+                              @Qualifier("bookSelectAllReader") ListItemReader bookSelectAllReader,
+                              @Qualifier("bookSelectAllWriter") JpaItemWriter bookSelectAllWriter){
         return stepBuilderFactory.get("bookPrintStepBuilder")
                 .<Book, Book>chunk(10)
-                .reader(bookSelectAllReader())
+                .reader(bookSelectAllReader)
                 .processor(bookItemProcessor)
-                .writer(bookSelectAllWriter())
+                .writer(bookSelectAllWriter)
                 .build();
     }
 
@@ -88,5 +91,17 @@ public class BookJobConfig {
         jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
         return jpaItemWriter;
     }
+
+//    @Bean(name = "bookAmqpReader")
+//    public ItemReader<Book> bookItemReader(){
+//        return new AmqpItemReader<>(rabbitTemplate);
+//    }
+//
+//    @Bean(name = "bookAmqpJpaWriter")
+//    public JpaItemWriter<Book> bookAmqpJpaWriter(){
+//        JpaItemWriter<Book> jpaItemWriter = new JpaItemWriter<>();
+//        jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
+//        return jpaItemWriter;
+//    }
 
 }

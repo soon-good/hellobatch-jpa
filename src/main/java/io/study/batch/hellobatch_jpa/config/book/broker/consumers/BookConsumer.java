@@ -1,4 +1,4 @@
-package io.study.batch.hellobatch_jpa.config.rabbitmq.consumers;
+package io.study.batch.hellobatch_jpa.config.book.broker.consumers;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,7 +14,7 @@ public class BookConsumer {
         System.out.println("[큐 : sysoutPrintQueue] " + String.valueOf(message));
     }
 
-    @RabbitListener(queues = "jpaWritingBinding")
+    @RabbitListener(queues = "jpaWritingQueue")
     public void receive2(final Message message){
         System.out.println("[큐 : jpaWritingBinding] " + String.valueOf(message));
         // batch작업작업

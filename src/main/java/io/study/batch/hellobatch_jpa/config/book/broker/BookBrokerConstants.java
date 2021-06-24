@@ -1,4 +1,4 @@
-package io.study.batch.hellobatch_jpa.config.rabbitmq;
+package io.study.batch.hellobatch_jpa.config.book.broker;
 
 import lombok.Getter;
 

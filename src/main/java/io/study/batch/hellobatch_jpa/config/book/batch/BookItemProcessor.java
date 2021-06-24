@@ -1,4 +1,4 @@
-package io.study.batch.hellobatch_jpa.config.batch;
+package io.study.batch.hellobatch_jpa.config.book.batch;
 
 import io.study.batch.hellobatch_jpa.shop.book.Book;
 import org.springframework.batch.item.ItemProcessor;
