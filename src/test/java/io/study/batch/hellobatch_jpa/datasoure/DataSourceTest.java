@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 
+@Profile("test-datasource")
 @SpringBootTest
 public class DataSourceTest {
 
@@ -30,5 +31,11 @@ public class DataSourceTest {
     public void testSelectAllDto(){
         List<BookDto> dtoList = bookService.listAllBook();
         System.out.println(dtoList);
+    }
+
+    @Test
+    public void testInsertDto(){
+        Book book1 = new Book("미국 주식에 미치다", 100);
+        bookRepository.save(book1);
     }
 }

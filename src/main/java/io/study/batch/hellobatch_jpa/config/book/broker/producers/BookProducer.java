@@ -33,7 +33,7 @@ public class BookProducer{
         this.books = bookRepository.findAll();
     }
 
-    @Scheduled(initialDelay = 1000, fixedRate = 1000)
+    @Scheduled(initialDelay = 1000, fixedRate = 500)
     public void sendBookMessage(){
         System.out.println("======= [producer] =======");
         for(Book book : books){

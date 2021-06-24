@@ -31,6 +31,13 @@ public class RabbitConfig {
         return rabbitTemplate;
     }
 
+    @Bean(name = "receiveTemplateForSaving")
+    public RabbitTemplate receiveTemplateForSaving(){
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(messageConverter);
+        return rabbitTemplate;
+    }
+
     @Bean(name = "mqMessageConverter")
     public MessageConverter messageConverter(){
         return new Jackson2JsonMessageConverter();
