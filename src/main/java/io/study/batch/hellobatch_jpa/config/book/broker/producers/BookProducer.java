@@ -1,6 +1,7 @@
 package io.study.batch.hellobatch_jpa.config.book.broker.producers;
 
 import io.study.batch.hellobatch_jpa.shop.book.Book;
+import io.study.batch.hellobatch_jpa.shop.book.dto.BookDto;
 import io.study.batch.hellobatch_jpa.shop.book.repository.BookRepository;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -37,8 +38,9 @@ public class BookProducer{
     public void sendBookMessage(){
         System.out.println("======= [producer] =======");
         for(Book book : books){
-            rabbitTemplate.convertAndSend(fanoutExchange.getName(), "", book);
-            System.out.println("[Sending] :: " + book.toString());
+            BookDto bookDto = new BookDto(book);
+            rabbitTemplate.convertAndSend(fanoutExchange.getName(), "", bookDto);
+            System.out.println("[Sending] :: " + bookDto.toString());
         }
     }
 
