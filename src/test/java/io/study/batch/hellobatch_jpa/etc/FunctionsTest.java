@@ -22,11 +22,11 @@ public class FunctionsTest {
         };
 
         List<Book> books = Arrays.asList(
-                new Book(1L, "시인은 저녁에 감성이 돋는다"),
-                new Book(2L, "오늘은 이만 쉴께요"),
-                new Book(3L, "사업왕 심길후"),
-                new Book(4L, "싸이월드 일촌 1000 명 만들기"),
-                new Book(5L, "한국 부동산 지도 - 빠짐없이 모두 올랐다!!! 살데가 없다.")
+                new Book(1L, "시인은 저녁에 감성이 돋는다", 200),
+                new Book(2L, "오늘은 이만 쉴께요", 200),
+                new Book(3L, "사업왕 심길후", 200),
+                new Book(4L, "싸이월드 일촌 1000 명 만들기", 200),
+                new Book(5L, "한국 부동산 지도 - 빠짐없이 모두 올랐다!!! 살데가 없다.", 200)
         );
 
         consumer.accept(books);

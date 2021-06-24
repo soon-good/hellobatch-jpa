@@ -1,11 +1,11 @@
-package io.study.batch.hellobatch_jpa.config.rabbitmq;
+package io.study.batch.hellobatch_jpa.config.book.broker.producers;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
+// 추후 분리 적용.....
 @Profile("test-rabbitmq-postgresql")
 @Configuration
-@EnableScheduling
+//@EnableScheduling
 public class MockProducerConfig {
 }

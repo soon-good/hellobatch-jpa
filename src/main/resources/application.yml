@@ -5,6 +5,19 @@ spring:
 spring:
   config:
     activate:
+      on-profile: test-datasource
+  datasource:
+    url: jdbc:postgresql://localhost:15432/testadmin
+    username: testadmin
+    password: 1111
+
+    hikari:
+      auto-commit: true
+
+---
+spring:
+  config:
+    activate:
       on-profile: test-rabbitmq-postgresql
   datasource:
     url: jdbc:postgresql://localhost:15432/testadmin

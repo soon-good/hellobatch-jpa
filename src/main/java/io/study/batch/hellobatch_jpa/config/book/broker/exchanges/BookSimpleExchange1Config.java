@@ -1,6 +1,6 @@
-package io.study.batch.hellobatch_jpa.config.rabbitmq.exchanges;
+package io.study.batch.hellobatch_jpa.config.book.broker.exchanges;
 
-import io.study.batch.hellobatch_jpa.config.rabbitmq.BookBrokerConstants;
+import io.study.batch.hellobatch_jpa.config.book.broker.BookBrokerConstants;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;

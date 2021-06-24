@@ -1,4 +1,4 @@
-package io.study.batch.hellobatch_jpa.config.rabbitmq.producers;
+package io.study.batch.hellobatch_jpa.config.book.broker.producers;
 
 import io.study.batch.hellobatch_jpa.shop.book.Book;
 import io.study.batch.hellobatch_jpa.shop.book.repository.BookRepository;
@@ -7,12 +7,14 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Profile("test-rabbitmq-postgresql")
+@EnableScheduling
 @Service
 public class BookProducer{
 
@@ -31,11 +33,12 @@ public class BookProducer{
         this.books = bookRepository.findAll();
     }
 
-    @Scheduled(initialDelay = 1000, fixedRate = 1000)
+    @Scheduled(initialDelay = 1000, fixedRate = 500)
     public void sendBookMessage(){
+        System.out.println("======= [producer] =======");
         for(Book book : books){
             rabbitTemplate.convertAndSend(fanoutExchange.getName(), "", book);
-            System.out.println("[producer sent] " + book.toString());
+            System.out.println("[Sending] :: " + book.toString());
         }
     }
 

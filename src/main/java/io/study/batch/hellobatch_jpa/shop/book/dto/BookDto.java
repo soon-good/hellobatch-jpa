@@ -15,6 +15,8 @@ public class BookDto {
 
     private Integer price;
 
+    public BookDto(){}
+
     public BookDto(Book book){
         this.name = book.getName();
         this.price = book.getPrice();
